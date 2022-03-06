@@ -8,8 +8,7 @@ const blogRoutes = require("./routes/blogRoutes")
 const app = express();
 
 // Connect to mongodb
-const URI =
-  "mongodb+srv://node-class:nodeclass123456@cluster0.hfivh.mongodb.net/node_db?retryWrites=true&w=majority";
+
 mongoose.connect(URI, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((result) => app.listen(4000))
   .catch((err) => console.log(err));
@@ -39,10 +38,6 @@ app.get("/about", (req, res) => {
 app.use('/blogs', blogRoutes)
 
 // 404 page use this function for every incoming request, it fires every sinle request regardless of url and it goes at the very bottom
-app.use((req, res) => {
-  res.status(404).render("404", {
-    title: "404"
-  });
-});
+
 
 // middleware is a ny code which runs on the server between getting a request and sending a response
