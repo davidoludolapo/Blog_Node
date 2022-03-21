@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../partials/head.ejs') %>
+  <%- include('../partials/head.ejs') %>
 
-<body>
-  <%- include('../partials/nav.ejs') %>
+  <body>
+    <%- include('../partials/nav.ejs') %>
 
-  <div class="blogs content">
-    <h2>All Blogs</h2>
+    <h3>Post Tree</h3>
 
-    <% if (blogs.length > 0) {%>
-    <% blogs.forEach(blog => {%>
-    <a class="single" href="/blogs/<%= blog._id %>">
-      <h3 class="title"><%= blog.title %></h3>
-      <p class="snippet"><%= blog.snippet %></p>
-    </a>
-    <% }) %> 
-    <% } else{ %>
-    <p>There are no blogs to display here</p>
-    <% } %>
-  </div>
-  <%- include('../partials/footer.ejs') %>
-</body>
+    <div class="w-full flex flex-row flex-wrap justify-around items-center">
+      <% if (blogs.length > 0) {%> <% blogs.forEach(blog => {%>
+      <div class="w-1/5 h-96 m-3 bg-gray-500">
+        <img src="/1.png" class="h-3/5 w-full" alt="" />
+        <div class="p-5">
+          <h4 class="font-bold text-3xl text-gray-900"><%= blog.title %></h4>
+          <p class="text-gray-200"><%= blog.snippet %></p>
+        </div>
+        <a href="/blogs/<%= blog._id %>">Read more...</a>
+      </div>
 
+      <% }) %> <% } else{ %>
+      <p class="text-center">Post tree is curently empty</p>
+      <small><a class="text-center" href="/">Go Home</a></small>
+      <% } %>
+    </div>
+
+    <!-- <%- include('../partials/footer.ejs') %> -->
+  </body>
 </html>

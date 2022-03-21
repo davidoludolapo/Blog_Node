@@ -1,20 +1,43 @@
 const Blog = require("../models/blog");
+const fs = require('fs')
+const fm = require('formidable')
+
+// const upload = (req, res) =>{
+//     let form = new fm.IncomingForm()
+//     form.parse(req, (err, body, file)=>{
+//         console.log(body);
+//         // let picture = file.picture.originalFilename
+
+//         // let oldPath = file.picture.filePath
+//         // let newPath = `uploads/${file.picture.originalFilename}`
+
+//         // fs.rename(oldPath, newPath, (err, response)=>{
+//         //     if (err) {
+//         //         res.render('pages/create', {message: 'Upload failed'})
+//         //     } else {
+//         //         let formContent = new userModel({body})
+//         //     }
+//         // })
+//     })
+// }
 
 const blog_index = (req, res) => {
     Blog.find().sort({
             createdAt: -1
         })
         .then((result) => {
+            // console.log(result);
             res.render("blogs/index", {
                 title: "All Blogs",
                 blogs: result
             });
+
         })
         .catch((err) => {
             console.log(err);
         });
 }
-
+  
 const blog_details = (req, res) => {
     const id = req.params.id
     Blog.findById(id)
@@ -25,7 +48,9 @@ const blog_details = (req, res) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            res.status(404).render("404", {
+    title: "Blog Not Found"
+  });
         })
 }
 
@@ -37,6 +62,7 @@ const blog_create_get = (req, res) => {
 
 const blog_create_post = (req, res) => {
     const blog = new Blog(req.body)
+    console.log(req.body);
     blog.save()
         .then((result) => {
             res.redirect('/blogs')
@@ -49,7 +75,7 @@ const blog_create_post = (req, res) => {
 const blog_delete = (req, res) => {
     const id = req.params.id;
 
-    Blog.findByIdAndDelete(id)
+    Blog.deleteOne({_id:id})
         .then(result => {
             res.json({
                 redirect: '/blogs'
